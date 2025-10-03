@@ -1,0 +1,85 @@
+using UnityEngine;
+
+public class Enemy : MonoBehaviour
+{
+
+    enum State { Idele,Running}
+
+    [Header("setting")]
+    [SerializeField] private float searchRadius;
+    [SerializeField] private float moveSpeed;
+
+    private State state;
+
+    private Transform targetRunner;
+
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        ManageState();
+    }
+
+    private void ManageState() 
+    {
+        switch (state) 
+        {
+            case State.Idele:
+                SearchForTarget();
+                break;
+
+            case State.Running:
+                RunTowardsTarget();
+                break;
+        }
+    }
+
+    private void SearchForTarget() 
+    {
+        Collider[] detectedColliders = Physics.OverlapSphere(transform.position, searchRadius);
+
+        for(int i = 0; i < detectedColliders.Length; i++) 
+        {
+            if (detectedColliders[i].TryGetComponent(out Runner runner)) 
+            {
+                if (runner.IsTarget()) continue;
+
+                runner.SetTaregt();
+
+                
+
+                targetRunner = runner.transform;
+
+                StartRunningTowardsTarget();
+            }
+        }
+    }
+
+    private void StartRunningTowardsTarget() 
+    {
+        state= State.Running;
+    }
+
+    private void RunTowardsTarget() 
+    {
+
+        Debug.Log(targetRunner.gameObject.name);
+
+        if (targetRunner == null) return;
+
+
+
+        transform.position = Vector3.MoveTowards(transform.position, targetRunner.position, moveSpeed * Time.deltaTime);
+
+        if (Vector3.Distance(transform.position, targetRunner.position)<0.1f) 
+        {
+            Destroy(targetRunner.gameObject);
+            Destroy(gameObject);
+        }
+    }
+}
