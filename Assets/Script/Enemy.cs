@@ -3,15 +3,15 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
 
-    enum State { Idele,Running}
+    public enum State { Idele,Running}
 
     [Header("setting")]
     [SerializeField] private float searchRadius;
     [SerializeField] private float moveSpeed;
 
-    private State state;
+    public State state;
 
-    private Transform targetRunner;
+    public Transform targetRunner;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -60,7 +60,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void StartRunningTowardsTarget() 
+    public void StartRunningTowardsTarget() 
     {
         state= State.Running;
     }
