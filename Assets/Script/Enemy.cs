@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float moveSpeed;
 
     public State state;
-
+    public bool PlayerCheck;
     public Transform targetRunner;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -34,6 +34,7 @@ public class Enemy : MonoBehaviour
                 break;
 
             case State.Running:
+                //PlayerCheck = true;
                 RunTowardsTarget();
                 break;
         }
@@ -51,6 +52,7 @@ public class Enemy : MonoBehaviour
 
                 runner.SetTaregt();
 
+                Debug.Log(gameObject.name + "‚Í" + runner.gameObject.name + "‚ð" + "Target‚É‚Æ‚ç‚¦‚½");
                 
 
                 targetRunner = runner.transform;

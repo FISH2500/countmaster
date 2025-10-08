@@ -26,6 +26,7 @@ public class Runner : MonoBehaviour
     public void SetTaregt() 
     {
         isTarget = true;
-        player.state = Player.Player_State.Battle;
+        
+        //player.state = Player.Player_State.Battle;
     }
 }

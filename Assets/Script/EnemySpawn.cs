@@ -2,11 +2,18 @@ using UnityEngine;
 
 public class EnemySpawn : MonoBehaviour
 {
+
+    [Header("ÉXÉ|Å[Éìê›íË")]
+    [SerializeField] public float count;
+    [SerializeField] public GameObject SpawnObject;
+    [SerializeField] public Transform SpawnParent;
+
     [SerializeField] private float angle;
     [SerializeField] private float radius;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        Spawn();
         PlaceRunner();
     }
 
@@ -14,6 +21,14 @@ public class EnemySpawn : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private void Spawn() 
+    {
+        for(int i = 0; i < count; i++) 
+        {
+            Instantiate(SpawnObject, transform);
+        }
     }
 
     private void PlaceRunner()
