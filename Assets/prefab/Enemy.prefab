@@ -121,7 +121,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38e7cf6d20ffe1d43b4cc43cdd66295e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  searchRadius: 10
+  searchRadius: 5
   moveSpeed: 10
   state: 0
+  PlayerCheck: 0
   targetRunner: {fileID: 0}
