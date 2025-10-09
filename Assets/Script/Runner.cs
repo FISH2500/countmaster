@@ -29,4 +29,11 @@ public class Runner : MonoBehaviour
         
         //player.state = Player.Player_State.Battle;
     }
+
+    public void UnSetTaregt()
+    {
+        isTarget = false;
+
+        //player.state = Player.Player_State.Battle;
+    }
 }

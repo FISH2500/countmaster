@@ -50,4 +50,12 @@ public class EnemySpawn : MonoBehaviour
 
         return new Vector3(x, 0, z);
     }
+
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    if (collision.gameObject.tag == "Player") 
+    //    {
+    //        Debug.Log("PlayerHit");
+    //    }
+    //}
 }

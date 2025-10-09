@@ -1,17 +1,25 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
+
 public class Player : MonoBehaviour
 {
-    public  enum Player_State{ Idle,Run,Battle}
+    public enum Player_State{ Idle,Run,Battle}
 
     public CrowedSystem crowed;
+    
+    [Header("ëñçsèÛë‘ÇÃê›íË")]
     public float ForwardSpeed;
     public float BesideSpeed;
+    
     public Transform Road;
 
+    [Header("êÌì¨íÜÇÃê›íË")]
+    public float BattleSpeed;
+    [Header("èÛë‘ä«óù")]
     public Player_State state;
 
+    private Transform Target;
     //private Rigidbody rb;
 
     void Start()
@@ -23,7 +31,8 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Move();
+        //Move();
+        Player_State_Management();
     }
     private void Player_State_Management() 
     {
@@ -37,6 +46,7 @@ public class Player : MonoBehaviour
                 break;
             case Player_State.Battle://ìGÇ∆ëŒõ≥
                 Debug.Log("êÌì¨íÜ");
+                BattleMove();
                 break;
         }
     }
@@ -47,12 +57,12 @@ public class Player : MonoBehaviour
         position.x = Mathf.Clamp(position.x, -Road.localScale.x/2+crowed.GetCrowed(), Road.localScale.x / 2 - crowed.GetCrowed());
         transform.position = position;
         //transform.position = new Vector3(0, transform.position.y, -ForwardSpeed);
-        transform.Translate(new Vector3(0,0,-1)*ForwardSpeed * Time.deltaTime, Space.World);
+        transform.Translate(new Vector3(0,0,1)*ForwardSpeed * Time.deltaTime, Space.World);
         if (Input.GetKey(KeyCode.D)) 
         {
             
 
-            transform.Translate(new Vector3(-1, 0, 0) * ForwardSpeed * Time.deltaTime, Space.World);
+            transform.Translate(new Vector3(1, 0, 0) * ForwardSpeed * Time.deltaTime, Space.World);
 
             
 
@@ -62,10 +72,27 @@ public class Player : MonoBehaviour
 
         else
         {
-            if (Input.GetKey(KeyCode.A)) transform.Translate(new Vector3(1, 0, 0) * ForwardSpeed * Time.deltaTime, Space.World);
+            if (Input.GetKey(KeyCode.A)) transform.Translate(new Vector3(-1, 0, 0) * ForwardSpeed * Time.deltaTime, Space.World);
         }
         
 
+    }
+    public void BattleMove() 
+    {
+        Debug.Log("start");
+        transform.position=Vector3.MoveTowards(transform.position, Target.position, BattleSpeed * Time.deltaTime);
+
+        transform.LookAt(Target.position);
+
+    }
+    public void SetTargetObj(Transform Istarget) 
+    {
+        Target = Istarget;
+    }
+    
+    public void ResetRotation() 
+    {
+        transform.eulerAngles = Vector3.zero;
     }
 
 

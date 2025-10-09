@@ -2,86 +2,104 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public enum State { Idle, Running }
 
-    public enum State { Idele,Running}
+    [Header("Setting")]
+    [SerializeField] private float searchRadius = 5f;
+    [SerializeField] private float moveSpeed = 3f;
 
-    [Header("setting")]
-    [SerializeField] private float searchRadius;
-    [SerializeField] private float moveSpeed;
-
-    public State state;
-    public bool PlayerCheck;
+    public State state = State.Idle;
     public Transform targetRunner;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    private Runner targetRunnerScript; // ← Runnerスクリプトを保持
 
-    // Update is called once per frame
     void Update()
     {
         ManageState();
     }
 
-    private void ManageState() 
+    private void ManageState()
     {
-        switch (state) 
+        switch (state)
         {
-            case State.Idele:
+            case State.Idle:
                 SearchForTarget();
                 break;
 
             case State.Running:
-                //PlayerCheck = true;
                 RunTowardsTarget();
                 break;
         }
     }
 
-    private void SearchForTarget() 
+    private void SearchForTarget()
     {
         Collider[] detectedColliders = Physics.OverlapSphere(transform.position, searchRadius);
 
-        for(int i = 0; i < detectedColliders.Length; i++) 
+        foreach (var col in detectedColliders)
         {
-            if (detectedColliders[i].TryGetComponent(out Runner runner)) 
+            //if (!col.CompareTag("Runner")) continue;
+            Debug.Log("Check"+CheckObject.isPlayerHit);
+            if (col.TryGetComponent(out Runner runner)&&CheckObject.isPlayerHit)
             {
                 if (runner.IsTarget()) continue;
 
+                // ターゲット設定
                 runner.SetTaregt();
-
-                Debug.Log(gameObject.name + "は" + runner.gameObject.name + "を" + "Targetにとらえた");
-                
-
                 targetRunner = runner.transform;
-
+                targetRunnerScript = runner;
+                Debug.Log($"{name} は {runner.name} をターゲットにとらえた");
                 StartRunningTowardsTarget();
+                break;
             }
         }
     }
 
-    public void StartRunningTowardsTarget() 
+    public void StartRunningTowardsTarget()
     {
-        state= State.Running;
+        state = State.Running;
     }
 
-    private void RunTowardsTarget() 
+    private void RunTowardsTarget()
     {
+        if (targetRunner == null)
+        {
+            ResetTarget(); // ← 追跡対象を解除
+            return;
+        }
 
-        Debug.Log(targetRunner.gameObject.name);
-
-        if (targetRunner == null) return;
-
-
-
+        transform.LookAt(targetRunner.position);
         transform.position = Vector3.MoveTowards(transform.position, targetRunner.position, moveSpeed * Time.deltaTime);
 
-        if (Vector3.Distance(transform.position, targetRunner.position)<0.1f) 
+        if (Vector3.Distance(transform.position, targetRunner.position) < 0.1f)
         {
+            // 衝突時の処理
             Destroy(targetRunner.gameObject);
+            ResetTarget(); // ← Runner破壊前に解除（安全）
             Destroy(gameObject);
         }
+    }
+
+    private void ResetTarget()
+    {
+        if (targetRunnerScript != null)
+        {
+            targetRunnerScript.UnSetTaregt(); // ← ターゲット解除
+            targetRunnerScript = null;
+        }
+        targetRunner = null;
+        state = State.Idle;
+    }
+
+    private void OnDestroy()
+    {
+        // 敵が消えるときに、追跡してたRunnerを解除
+        ResetTarget();
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, searchRadius);
     }
 }

@@ -14,7 +14,7 @@ public class PlayerCheckScr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (enemy.state == Enemy.State.Idele) { }
+        if (enemy.state == Enemy.State.Idle) { }
 
         SearchForTarget();
     }
