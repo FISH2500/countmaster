@@ -93,6 +93,9 @@ public class Player : MonoBehaviour
     public void ResetRotation() 
     {
         transform.eulerAngles = Vector3.zero;
+        Vector3 pos = transform.position;
+        pos.y = 0.48f;
+        transform.position = pos;
     }
 
 

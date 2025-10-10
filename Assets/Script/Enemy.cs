@@ -12,6 +12,12 @@ public class Enemy : MonoBehaviour
     public Transform targetRunner;
 
     private Runner targetRunnerScript; // ← Runnerスクリプトを保持
+    private Animator animator;
+
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     void Update()
     {
@@ -24,10 +30,12 @@ public class Enemy : MonoBehaviour
         {
             case State.Idle:
                 SearchForTarget();
+                animator.SetBool("Run", false);
                 break;
 
             case State.Running:
                 RunTowardsTarget();
+                animator.SetBool("Run", true);
                 break;
         }
     }

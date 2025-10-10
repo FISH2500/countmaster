@@ -54,6 +54,22 @@ public class ScoreManager : MonoBehaviour
 
         }
     }
+    public void MultiplySetPlayer(int count)
+    {
+        int childcount = respawn_obj.transform.childCount;
+
+        for (int i = 0; i < childcount*count-childcount; i++)
+        {
+            float x = i;
+
+            GameObject player = Instantiate(Player, Vector3.zero, Quaternion.identity, respawn_obj.transform);
+
+            player.transform.localPosition = Vector3.right * x;
+
+
+
+        }
+    }
 
     public void GameOver() 
     {

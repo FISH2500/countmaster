@@ -34,7 +34,7 @@ public class CrowedSystem : MonoBehaviour
 
     private Vector3 GetRunnerlocalPosition(int index) 
     {
-        float x=radius*Mathf.Sqrt(index)*Mathf.Cos(Mathf.Deg2Rad*index*angle);
+        float x=  radius * Mathf.Sqrt(index) * Mathf.Cos(Mathf.Deg2Rad * index * angle);
         float z = radius * Mathf.Sqrt(index) * Mathf.Sin(Mathf.Deg2Rad * index * angle);
 
         return new Vector3(x,0,z);

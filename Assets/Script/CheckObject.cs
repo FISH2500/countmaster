@@ -52,7 +52,16 @@ public class CheckObject : MonoBehaviour
             Debug.Log("親オブジェクト"+other.transform.GetChild(0));
             playerScript.SetTargetObj(other.transform.GetChild(0));
        }
-        
+        else if (other.tag == "Multiply")
+        {
+            Debug.Log("Blue_Multiply");
+            isHit = true;
+            Point p = other.GetComponent<Point>();
+
+            ScoreManager.instance.MultiplySetPlayer(p.Count);
+            Destroy(other.gameObject);
+        }
+
     }
     //private void OnTriggerExit(Collider other)
     //{

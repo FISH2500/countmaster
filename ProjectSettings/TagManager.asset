@@ -8,6 +8,7 @@ TagManager:
   - Minus
   - EnemyField
   - Enemy
+  - Multiply
   layers:
   - Default
   - TransparentFX
@@ -15,7 +16,7 @@ TagManager:
   - 
   - Water
   - UI
-  - 
+  - Enemy
   - 
   - 
   - 
