@@ -4,7 +4,7 @@ using UnityEngine.UIElements;
 
 public class Player : MonoBehaviour
 {
-    public enum Player_State{ Idle,Run,Battle}
+    public enum Player_State{ Idle,Run,Battle,GameOver}
 
     public CrowedSystem crowed;
     
@@ -20,12 +20,16 @@ public class Player : MonoBehaviour
     public Player_State state;
 
     private Transform Target;
+
+    private Animator animator;
     //private Rigidbody rb;
 
     void Start()
     {
         //rb = GetComponent<Rigidbody>();
-        state = Player_State.Run;
+        state = Player_State.Idle;
+
+        animator= GetComponent<Animator>();   
     }
 
     // Update is called once per frame
@@ -39,16 +43,30 @@ public class Player : MonoBehaviour
         switch (state)
         {
             case Player_State.Idle://スタート開始前
-
+                animator.SetBool("Run", false);
                 break;
             case Player_State.Run://走っている
                 Move();
+                animator.SetBool("Run", true);
                 break;
             case Player_State.Battle://敵と対峙
                 Debug.Log("戦闘中");
                 BattleMove();
                 break;
+            case Player_State.GameOver:
+                Debug.Log("GameOver!");
+                
+                break;
         }
+
+        
+
+        if (gameObject.transform.childCount <= 0) 
+        {
+            state = Player_State.GameOver;
+            UIManager.Instance.SetGameOverWindow();
+        }
+
     }
 
     void Move()
@@ -96,6 +114,12 @@ public class Player : MonoBehaviour
         Vector3 pos = transform.position;
         pos.y = 0.48f;
         transform.position = pos;
+    }
+
+    public void StartButton() 
+    {
+        UIManager.Instance.UnSetStartButton();
+        state = Player_State.Run;
     }
 
 

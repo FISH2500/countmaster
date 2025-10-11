@@ -3,10 +3,18 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+
+    public static UIManager Instance { get; private set; }
+
     public TextMeshProUGUI PlayerCount;
+    public GameObject GameOverWindow;
+    public GameObject StartButton;
     private GameObject RespawnObj;
     private int count;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private void Awake()
+    {
+        Instance = this;
+    }
     void Start()
     {
         RespawnObj = GameObject.Find("Respawn");
@@ -19,6 +27,16 @@ public class UIManager : MonoBehaviour
         count = RespawnObj.transform.childCount;
         
         PlayerCount.text = ""+count;
+    }
+
+    public void SetGameOverWindow() 
+    {
+        GameOverWindow.SetActive(true);
+    }
+
+    public void UnSetStartButton() 
+    {
+        StartButton.SetActive(false);
     }
 
     
