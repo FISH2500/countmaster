@@ -4,7 +4,7 @@ public class CheckObject : MonoBehaviour
 {
     public static bool isHit;
     public static float NowTime;
-    private  float interval = 3f;
+
     public static bool isPlayerHit;
     private Player playerScript;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -27,6 +27,7 @@ public class CheckObject : MonoBehaviour
     {
        if (other.tag == "Plus")
        {
+            other.enabled = false;
            Debug.Log("Blue");
            isHit = true;
            Point p = other.GetComponent<Point>();
@@ -37,6 +38,7 @@ public class CheckObject : MonoBehaviour
        }
        else if (other.tag == "Minus")
        {
+            other.enabled = false;
             Debug.Log("Red");
             isHit = true;
             Point p = other.GetComponent<Point>();
@@ -54,12 +56,19 @@ public class CheckObject : MonoBehaviour
        }
         else if (other.tag == "Multiply")
         {
+            other.enabled = false;
             Debug.Log("Blue_Multiply");
             isHit = true;
             Point p = other.GetComponent<Point>();
 
             ScoreManager.instance.MultiplySetPlayer(p.Count);
             Destroy(other.gameObject);
+        }
+       else if (other.tag == "Goal") 
+        {
+            playerScript.ForwardSpeed=0;
+            UIManager.Instance.SetGameClearWindow();
+            UIManager.Instance.SetScore(gameObject.transform.parent.childCount);
         }
 
     }

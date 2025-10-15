@@ -14,6 +14,11 @@ public class Enemy : MonoBehaviour
     private Runner targetRunnerScript; // ← Runnerスクリプトを保持
     private Animator animator;
 
+    public float boxLength = 5f;     // 前方向への長さ
+    public float boxWidth = 1f;      // 横の幅
+    public float boxHeight = 1f;     // 高さ
+    public LayerMask targetLayer;    // 検出対象のレイヤー
+    Vector3 boxCenter;
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -21,8 +26,11 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+
         ManageState();
+        
     }
+
 
     private void ManageState()
     {
@@ -42,12 +50,13 @@ public class Enemy : MonoBehaviour
 
     private void SearchForTarget()
     {
+        Vector3 boxCenter = transform.position + transform.forward * (boxLength / 2f);
         Collider[] detectedColliders = Physics.OverlapSphere(transform.position, searchRadius);
 
         foreach (var col in detectedColliders)
         {
             //if (!col.CompareTag("Runner")) continue;
-            Debug.Log("Check"+CheckObject.isPlayerHit);
+            
             if (col.TryGetComponent(out Runner runner)&&CheckObject.isPlayerHit)
             {
                 if (runner.IsTarget()) continue;
@@ -79,9 +88,9 @@ public class Enemy : MonoBehaviour
         transform.LookAt(targetRunner.position);
         transform.position = Vector3.MoveTowards(transform.position, targetRunner.position, moveSpeed * Time.deltaTime);
 
-        if (Vector3.Distance(transform.position, targetRunner.position) < 0.1f)
+        if (Vector3.Distance(transform.position, targetRunner.position) < 0.1f)// 衝突時の処理
         {
-            // 衝突時の処理
+            
             Destroy(targetRunner.gameObject);
             ResetTarget(); // ← Runner破壊前に解除（安全）
             Destroy(gameObject);

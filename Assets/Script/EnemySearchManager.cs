@@ -23,7 +23,6 @@ public class EnemySearchManager : MonoBehaviour
     private void EnemySearch() 
     {
         enemyFound = false;
-        Debug.Log("ŒŸõ’†BBB");
         Collider[] detectedColliders = Physics.OverlapSphere(transform.position, searchRadius);
 
         foreach (var col in detectedColliders)

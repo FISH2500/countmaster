@@ -26,9 +26,8 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        //rb = GetComponent<Rigidbody>();
-        state = Player_State.Idle;
 
+        state = Player_State.Idle;
         animator= GetComponent<Animator>();   
     }
 
@@ -50,12 +49,7 @@ public class Player : MonoBehaviour
                 animator.SetBool("Run", true);
                 break;
             case Player_State.Battle://ìGÇ∆ëŒõ≥
-                Debug.Log("êÌì¨íÜ");
                 BattleMove();
-                break;
-            case Player_State.GameOver:
-                Debug.Log("GameOver!");
-                
                 break;
         }
 
@@ -78,14 +72,7 @@ public class Player : MonoBehaviour
         transform.Translate(new Vector3(0,0,1)*ForwardSpeed * Time.deltaTime, Space.World);
         if (Input.GetKey(KeyCode.D)) 
         {
-            
-
             transform.Translate(new Vector3(1, 0, 0) * ForwardSpeed * Time.deltaTime, Space.World);
-
-            
-
-            
-
         } 
 
         else
@@ -93,11 +80,9 @@ public class Player : MonoBehaviour
             if (Input.GetKey(KeyCode.A)) transform.Translate(new Vector3(-1, 0, 0) * ForwardSpeed * Time.deltaTime, Space.World);
         }
         
-
     }
     public void BattleMove() 
     {
-        Debug.Log("start");
         transform.position=Vector3.MoveTowards(transform.position, Target.position, BattleSpeed * Time.deltaTime);
 
         transform.LookAt(Target.position);

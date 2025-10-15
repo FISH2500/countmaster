@@ -20,6 +20,7 @@ public class Point : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Hit");
+        this.Collider.enabled = false;
         Collider.enabled = false;
     }
 }

@@ -9,6 +9,7 @@ TagManager:
   - EnemyField
   - Enemy
   - Multiply
+  - Goal
   layers:
   - Default
   - TransparentFX
